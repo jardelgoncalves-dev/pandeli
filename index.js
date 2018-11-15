@@ -15,6 +15,7 @@ mongoose.connect("mongodb://localhost:2702/pandeli-db", { useNewUrlParser: true 
 
 // Configurações
 app.set("view engine", "ejs");
+app.set("views", "./public/views");
 app.use(express.static(__dirname + "/public"));
 app.set("port", 3000)
 app.use(morgan("dev"));
