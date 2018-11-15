@@ -1,0 +1,19 @@
+{
+  "name": "pandeli",
+  "version": "1.0.0",
+  "description": "Sistema de pedido",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "keywords": [
+    "NodeJS",
+    "MongoDB"
+  ],
+  "author": "Jardel Gonçalves, Mara Vitoria, Igor",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4"
+  }
+}
