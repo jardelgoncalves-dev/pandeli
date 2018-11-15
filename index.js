@@ -21,6 +21,11 @@ app.set("port", 3000)
 app.use(morgan("dev"));
 app.use(express.json());
 
+
+// Rotas
+
+app.use("/", require("./routes/index"));
+
 app.listen(app.get("port"), function(){
     console.log("Server on port", app.get("port"))
 });
