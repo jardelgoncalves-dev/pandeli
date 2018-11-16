@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const morgan = require("morgan");
+const expressSession = require("express-session");
+const bodyParse = require("body-parser");
 
 // Configuração e Conexão com o mongodb
 mongoose.set('debug', true);
@@ -16,10 +18,18 @@ mongoose.connect("mongodb://localhost:2702/pandeli-db", { useNewUrlParser: true 
 // Configurações
 app.set("view engine", "ejs");
 app.set("views", "./public/views");
-app.use(express.static(__dirname + "/public"));
 app.set("port", 3000)
+
+// Middlewares 
+app.use(express.static(__dirname + "/public"));
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(bodyParse.urlencoded({extended:true}));
+app.use(expressSession({
+    secret:"ajsdj34r34jfasascqsdas0",
+    resave:false,
+    saveUninitialized:false
+}));
 
 
 // Rotas
