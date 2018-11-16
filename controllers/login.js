@@ -1,3 +1,21 @@
-module.exports = function(req, res){
+const Usuario = require("../model/usuarios");
+
+module.exports.login = function(req, res){
     res.render("account/login")
+}
+
+module.exports.auth = function(req, res){
+    const usuario = Usuario.findOne(req.body)
+    .then(function(usuario){
+        if (usuario){
+            req.session.autorizado = true
+            req.session.usuario = usuario
+        }
+    
+        if(req.session.autorizado){
+            res.redirect("/dashboard")
+        }else{
+            res.redirect("/login")
+        }
+    })
 }
