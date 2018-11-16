@@ -2,14 +2,20 @@ const Usuario = require("../../model/usuarios");
 const { check } = require('express-validator/check');
 
 module.exports.addUsuario = function(req, res){
-    const already = Usuario.findOne({email:req.email})
     var erros = []
+    const already = Usuario.findOne({email:req.body.email})
     .then(function(already){
         if(already){
             erros.push("Email já utilizado!")
+            res.json({
+                status:"email já utilziado"
+            })
         }else{
             if (req.body.password !== req.body.passwordConfirm){
                 erros.push("Senha incorreta")
+                res.json({
+                    status:"Senha incorreta"
+                })
             } else{
                 const user = {
                     nome:req.body.nome,
