@@ -36,6 +36,8 @@ app.use(expressSession({
 app.use("/", require("./routes/index"));
 app.use("/cardapio", require("./routes/cardapio"));
 app.use("/login", require("./routes/login"));
+app.use("/dashboard", require("./routes/dashboard"));
+app.use("/sair", require("./routes/logout"));
 
 app.listen(app.get("port"), function(){
     console.log("Server on port", app.get("port"))
