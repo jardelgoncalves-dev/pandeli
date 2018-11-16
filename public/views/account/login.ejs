@@ -32,17 +32,17 @@
                             <div class="text-center">
                                 <img src="dist/img/favicon.png" width="120" alt="logo tipo">
                             </div>
-                            <form>
+                            <form action="/login/auth", method="POST">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Email</label>
-                                        <input type="email" class="form-control" placeholder="Email">
+                                        <input type="email" name="email" class="form-control" placeholder="Email">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Password</label>
-                                        <input class="form-control" placeholder="Password">
+                                        <input class="form-control" name="password" placeholder="Password" required>
                                     </div>
                                     <div class="text-center">
-                                        <button class="btn btn-info btn-lg">Entrar</button>
+                                        <button type="submit" class="btn btn-info btn-lg">Entrar</button>
                                     </div>
                                 </form>
                                 <br>
