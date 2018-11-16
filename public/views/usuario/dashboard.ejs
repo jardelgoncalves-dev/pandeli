@@ -19,7 +19,7 @@
                                     <strong><i class="fas fa-user"></i> Ola, <%= usuario.nome %> </strong>
                                   </a>
                                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="/dashboard">Minha Página</a>
                                     <a class="dropdown-item" href="#">Another action</a>
                                     <a class="dropdown-item" href="/sair">Sair</a>
                                   </div>
@@ -35,10 +35,33 @@
         <div class="row">
             <div class="col-md-12">
                 <div style="margin-top:70px;">
-                    <h1>Olá, <%= usuario.nome %></h1>
+                    <h1 class="text-pandeli-red">Olá, <%= usuario.nome %></h1>
+                    <hr style="border: 2px solid #d46a56ff;">
+
+                    <div style="margin-top:120px">
+                        <h2 class="text-pandeli-red text-center">Minhas Compras</h2>
+                        <br>
+                        <table class="table">
+                            <thead class="bg-pandeli">
+                                <tr>
+                                    <th scope="col" class="text-pandeli">Produtos</th>
+                                    <th scope="col" class="text-pandeli">Data da compra</th>
+                                    <th scope="col" class="text-pandeli">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-pandeli-red">Mark</td>
+                                    <td class="text-pandeli-red">Otto</td>
+                                    <td class="text-pandeli-red">@mdo</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </main>
+<br>
 <% include ../base/rodape.ejs %>
