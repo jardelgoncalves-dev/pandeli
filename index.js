@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const expressSession = require("express-session");
 const bodyParse = require("body-parser");
+const expressValidator = require("express-validator");
 
 // Configuração e Conexão com o mongodb
 mongoose.set('debug', true);
@@ -30,6 +31,7 @@ app.use(expressSession({
     resave:false,
     saveUninitialized:false
 }));
+app.use(expressValidator());
 
 
 // Rotas
@@ -38,6 +40,10 @@ app.use("/cardapio", require("./routes/cardapio"));
 app.use("/login", require("./routes/login"));
 app.use("/dashboard", require("./routes/dashboard"));
 app.use("/sair", require("./routes/logout"));
+
+// Rotas API
+app.use("/api/auth", require("./routes/api/auth"));
+app.use("/api/usuario", require("./routes/api/usuario"));
 
 app.listen(app.get("port"), function(){
     console.log("Server on port", app.get("port"))
