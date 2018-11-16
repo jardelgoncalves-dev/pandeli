@@ -25,6 +25,7 @@ app.use(express.json());
 // Rotas
 app.use("/", require("./routes/index"));
 app.use("/cardapio", require("./routes/cardapio"));
+app.use("/login", require("./routes/login"));
 
 app.listen(app.get("port"), function(){
     console.log("Server on port", app.get("port"))
