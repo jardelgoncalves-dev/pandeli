@@ -1,4 +1,5 @@
 <% include ../base/cabecalho.ejs %>
+<main>
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-pandeli">
             <a class="navbar-brand" href=""><strong class="text-pandeli">Pandeli</strong></a>
@@ -11,7 +12,7 @@
                         <a class="nav-link text-pandeli" href=""><i class="fas fa-home"></i> Inicio</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><strong><i class="fas fa-book-open"></i> Cardápio</strong></a>
+                        <a class="nav-link" href="/cardapio"><strong><i class="fas fa-book-open"></i> Cardápio</strong></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><strong><i class="fas fa-user"></i> Login</strong></a>
@@ -23,9 +24,10 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container" data-aos="fade-left" data-aos-anchor="#example-anchor" data-aos-offset="500">
         <div class="row">
             <div class="col-md-12">
+                <br><br>
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -56,7 +58,7 @@
                 <br>
                 <!-- Publicações -->
                 <hr class="featurette-divider">
-                <div class="row featurette">
+                <div class="row featurette" data-aos="zoom-in">
                     <div class="col-md-8 col-sm-12">
                         <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
                         <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
@@ -67,7 +69,7 @@
                 </div>
 
                 <hr class="featurette-divider">
-                <div class="row featurette">
+                <div class="row featurette" data-aos="zoom-in">
                     <div class="col-md-8 col-sm-12">
                         <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
                         <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
@@ -78,7 +80,7 @@
                 </div>
 
                 <hr class="featurette-divider">
-                <div class="row featurette">
+                <div class="row featurette" data-aos="zoom-in">
                     <div class="col-md-8 col-sm-12">
                         <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
                         <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
@@ -90,5 +92,6 @@
             </div>
         </div>
     </div>
+</main>
                 
 <% include ../base/rodape.ejs %>
