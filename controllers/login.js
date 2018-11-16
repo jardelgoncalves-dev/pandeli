@@ -1,3 +1,6 @@
 module.exports = function(req, res){
-    res.render("account/login")
+    if(req.session.autorizado){
+        req.session.destroy()
+    }
+        res.render("account/login")
 }
