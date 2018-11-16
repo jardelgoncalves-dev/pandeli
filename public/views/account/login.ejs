@@ -1,0 +1,60 @@
+<% include ../base/cabecalho.ejs %>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-pandeli">
+            <a class="navbar-brand" href="/"><strong class="text-pandeli">Pandeli</strong></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-pandeli" href="/"><i class="fas fa-home"></i> Inicio</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cardapio"><strong><i class="fas fa-book-open"></i> Cardápio</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><strong><i class="fas fa-user"></i> Login</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><strong><i class="fas fa-shopping-cart"></i> Carrinho</strong></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container" data-aos="fade-left" data-aos-anchor="#example-anchor" data-aos-offset="500">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div style="margin-top:70px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <img src="dist/img/favicon.png" width="120" alt="logo tipo">
+                            </div>
+                            <form>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Email</label>
+                                        <input type="email" class="form-control" placeholder="Email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Password</label>
+                                        <input class="form-control" placeholder="Password">
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-info btn-lg">Entrar</button>
+                                    </div>
+                                </form>
+                                <br>
+                                <p class="text-pandeli-red text-center">
+                                    Ainda não possui um cadastro?<br>
+                                    Não perca tempo <a href="#" class="text-pandeli-red">clique aqui</a>
+                                </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                
+<% include ../base/rodape.ejs %>
