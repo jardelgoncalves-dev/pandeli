@@ -39,6 +39,7 @@ app.use("/", require("./routes/index"));
 app.use("/cardapio", require("./routes/cardapio"));
 app.use("/login", require("./routes/login"));
 app.use("/dashboard", require("./routes/dashboard"));
+app.use("/cadastro", require("./routes/cadastro"));
 app.use("/sair", require("./routes/logout"));
 
 // Rotas API
