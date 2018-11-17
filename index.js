@@ -22,7 +22,8 @@ app.set("views", "./public/views");
 app.set("port", 3000)
 
 // Middlewares 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static("./public"));
+
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(bodyParse.urlencoded({extended:true}));
@@ -40,6 +41,7 @@ app.use("/cardapio", require("./routes/cardapio"));
 app.use("/login", require("./routes/login"));
 app.use("/dashboard", require("./routes/dashboard"));
 app.use("/cadastro", require("./routes/cadastro"));
+app.use("/dashboard", require("./routes/pedidos"));
 app.use("/sair", require("./routes/logout"));
 
 // Rotas API
