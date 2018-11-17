@@ -1,0 +1,115 @@
+<% include ../base/cabecalho.ejs %>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-pandeli">
+            <a class="navbar-brand" href="/"><strong class="text-pandeli">Pandeli</strong></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-pandeli" href="/"><i class="fas fa-home"></i> Inicio</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cardapio"><strong><i class="fas fa-book-open"></i> Cardápio</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><strong><i class="fas fa-user"></i> Login</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><strong><i class="fas fa-shopping-cart"></i> Carrinho</strong></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container" data-aos="fade-left" data-aos-anchor="#example-anchor" data-aos-offset="500">
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+                <div style="margin-top:70px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <img src="dist/img/favicon.png" width="120" alt="logo tipo">
+                            </div>
+                            <br>
+                            <% if(erros.length > 0){ %>
+                            <div class="alert alert-danger" role="alert">
+                                <ul>
+                                    <% for(let i=0;erros.length > i; i++){ %>
+                                        <li><%= erros[i] %></li>
+                                    <% } %> 
+                                </ul>
+                            </div>
+                            <% } %>
+                            <form action="/cadastro", method="POST">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputNome">Nome</label>
+                                        <input type="text" name="nome" class="form-control" placeholder="Nome">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputSobrenome">Sobrenome</label>
+                                        <input class="form-control" type="text" name="sobrenome" placeholder="Sobrenome" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputRua">Rua</label>
+                                        <input type="text" name="rua" class="form-control" placeholder="Rua">
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <label for="exampleInputNumero">Numero</label>
+                                        <input class="form-control" type="text" name="numero" placeholder="Numero" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="exampleInputBairro">Bairro</label>
+                                        <input class="form-control" type="text" name="bairro" placeholder="Bairro" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label for="exampleInputCidade">Cidade</label>
+                                        <input type="text" name="cidade" class="form-control" placeholder="Cidade">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="exampleInputUF">UF</label>
+                                        <input class="form-control" type="text" name="uf" placeholder="UF" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="exampleInputCep">CEP</label>
+                                        <input class="form-control" type="text" name="cep" placeholder=CEP" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label for="exampleInputEmail">Email</label>
+                                        <input type="email" name="email" class="form-control" placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputPassword">Senha</label>
+                                        <input type="password" name="password" class="form-control" placeholder="Senha">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputPasswordConfirm">Confirmação da senha</label>
+                                        <input type="password" name="passwordConfirm" class="form-control" placeholder="Confirmação da senha">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-info btn-lg">Finalizar Cadastro</button>
+                                </div>
+                                </form>
+                                <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                
+<% include ../base/rodape.ejs %>
