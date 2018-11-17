@@ -1,0 +1,68 @@
+<% include ../base/cabecalho.ejs %>
+<main>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-pandeli">
+            <a class="navbar-brand" href=""><strong class="text-pandeli">Pandeli</strong></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-pandeli" href="/"><i class="fas fa-home"></i> Inicio</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cardapio"><strong><i class="fas fa-book-open"></i> Cardápio</strong></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <strong><i class="fas fa-user"></i> Ola, <%= usuario.nome %> </strong>
+                                  </a>
+                                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="/dashboard">Minha Página</a>
+                                    <a class="dropdown-item" href="/dashboard/pedidos">Pedidos</a>
+                                    <a class="dropdown-item" href="/sair">Sair</a>
+                                  </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><strong><i class="fas fa-shopping-cart"></i> Carrinho</strong></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container" data-aos="fade-left" data-aos-anchor="#example-anchor" data-aos-offset="500">
+        <div class="row">
+            <div class="col-md-12">
+                <div style="margin-top:70px;">
+                        <h2 class="text-pandeli-red text-center">Pedidos</h2>
+                        <br>
+                        <table class="table">
+                            <thead class="bg-pandeli">
+                                <tr>
+                                    <th scope="col" class="text-pandeli">Produtos</th>
+                                    <th scope="col" class="text-pandeli">Data da compra</th>
+                                    <th scope="col" class="text-pandeli">Status</th>
+                                    <th scope="col" class="text-pandeli">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-pandeli-red">Mark</td>
+                                    <td class="text-pandeli-red">Otto</td>
+                                    <td class="text-pandeli-red">@mdo</td>
+                                    <td>
+                                        <button type="button" class="btn btn-success"><i class="fas fa-plus-square"></i></button>
+                                        <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<br>
+<% include ../base/rodape.ejs %>
