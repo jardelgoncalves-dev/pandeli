@@ -1,20 +1,23 @@
 const Usuario = require("../../model/usuarios");
-const { check } = require('express-validator/check');
 
 module.exports.addUsuario = function(req, res){
     var erros = []
     const already = Usuario.findOne({email:req.body.email})
     .then(function(already){
         if(already){
-            erros.push("Email já utilizado!")
+            erros.push("Email já uso!")
             res.json({
-                status:"email já utilziado"
+                status:false,
+                mensage:erros
             })
+            
+
         }else{
             if (req.body.password !== req.body.passwordConfirm){
-                erros.push("Senha incorreta")
+                erros.push("Senhas não equivalentes.!")
                 res.json({
-                    status:"Senha incorreta"
+                    status:false,
+                    mensage:erros
                 })
             } else{
                 const user = {
@@ -36,9 +39,26 @@ module.exports.addUsuario = function(req, res){
                 const usuario = new Usuario(user)
                 usuario.save()
                 res.json({
-                    status:"Usuário Cadastrado"
+                    status:true,
+                    usuario:usuario
                 })
             }
         }
     })
+}
+
+module.exports.getAllUsuarios = function(req, res){
+    // retornar todos os usuarios
+}
+
+module.exports.updateUsuario = function(req, res){
+    // dado um id, atualiza informaçoes do usuario
+}
+
+module.exports.addCompraUsuario = function(req, res){
+    // dado um id (usuario), atualizar usuario inserindo no array compras, as compras efetuadas
+}
+
+module.exports.deleteUsuario = function(req, res){
+    // dado um id, remove usuário da base de dados
 }
