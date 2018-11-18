@@ -1,45 +1,27 @@
 const Usuario = require("../../model/usuarios");
 
 module.exports.addUsuario = function(req, res){
-    var erros = []
     const already = Usuario.findOne({email:req.body.email})
     .then(function(already){
         if(already){
-            erros.push("Email já uso!")
             res.json({
-                status:false,
-                mensage:erros
+                stored:false,
+                message:"Email já em uso."
             })
             
 
         }else{
-            if (req.body.password !== req.body.passwordConfirm){
-                erros.push("Senhas não equivalentes.!")
+            if(isNaN(parseInt(req.body.endereco.numero)) && req.body.endereco.numero.toUpperCase() !== "S/N"){
                 res.json({
-                    status:false,
-                    mensage:erros
+                    stored:false,
+                    message:"Numero da casa inválido"
                 })
-            } else{
-                const user = {
-                    nome:req.body.nome,
-                    sobrenome:req.body.sobrenome,
-                    email:req.body.email,
-                    password:req.body.password,
-                    cpf:req.body.cpf,
-                    endereco:{
-                        rua:req.body.rua,
-                        numero:req.body.numero,
-                        bairro:req.body.bairro,
-                        cidade:req.body.cidade,
-                        uf:req.body.uf,
-                        cep:req.body.cep
-                    },
-                    nivel_Acesso:1
-                }
-                const usuario = new Usuario(user)
+            } else {
+                const usuario = new Usuario(req.body)
                 usuario.save()
                 res.json({
-                    status:true,
+                    stored:true,
+                    message:"Usuário cadastrado com sucesso.",
                     usuario:usuario
                 })
             }
