@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const expressSession = require("express-session");
 const bodyParse = require("body-parser");
 const expressValidator = require("express-validator");
+const flash = require("connect-flash");
 
 // Configuração e Conexão com o mongodb
 mongoose.set('debug', true);
@@ -33,6 +34,7 @@ app.use(expressSession({
     saveUninitialized:false
 }));
 app.use(expressValidator());
+app.use(flash());
 
 
 // Rotas
