@@ -102,7 +102,36 @@ module.exports.addCompraUsuario = function(req, res){
 
 
 module.exports.editStatusCompra = function(req, res){
-    // dado um usuário e uma compra, altera o status para entregue
+    const usuario = Usuario.findById(req.params.id)
+    .then(function(usuario){
+        if(req.body.status){
+            // Função para verificar se objeto (compra) verificado é o que está sendo procurado
+            function getCompra(array){
+                if (array.id === req.params.id_compra){
+                    return array
+                }
+            }
+            // Recupera a posição da compra no array (passando a função definida anteriormente)
+            let pos = usuario.compras.findIndex(getCompra)
+            // altera o status da compra
+            usuario.compras[pos].status = req.body.status
+
+            Usuario.updateOne({_id:req.params.id}, usuario, function(err, result){
+                if(err){
+                    res.status(404).json({
+                        message:"Ocorreu um erro ao tentar atualizar status da compra"
+                    })
+                }
+                res.status(200).json({
+                    message:"Status da compra atualizada"
+                })
+            })
+        } else {
+            res.status(404).json({
+                message:"Parâmetro status é requerido"
+            })
+        }
+    })
 }
 
 module.exports.deleteUsuario = function(req, res){
