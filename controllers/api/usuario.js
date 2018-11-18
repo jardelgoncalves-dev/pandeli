@@ -1,5 +1,9 @@
 const Usuario = require("../../model/usuarios");
+const randomstring = require("randomstring");
+const date = require('date-and-time');
 
+
+// Add Usuário (consumido pelo cadastro)
 module.exports.addUsuario = function(req, res){
     const already = Usuario.findOne({email:req.body.email})
     .then(function(already){
@@ -29,16 +33,76 @@ module.exports.addUsuario = function(req, res){
     })
 }
 
+// Retorna todos os usuários cadastrados na base de dados
 module.exports.getAllUsuarios = function(req, res){
-    // retornar todos os usuarios
+    Usuario.find()
+    .then(function(usuarios){
+        res.json(usuarios)
+    })
 }
 
+// Retorna um único usuário (necessário passar um id como argumento)
+module.exports.getUsuario = function(req, res){
+    const usuario = Usuario.findById(req.params.id)
+    .then(function(usuario){
+        res.json(usuario)
+    })
+}
+
+// Atualiza informações de um usuário
 module.exports.updateUsuario = function(req, res){
-    // dado um id, atualiza informaçoes do usuario
+    Usuario.updateOne({_id:req.params.id}, req.body, function(err, result){
+        if(err){
+            res.status(404).json({
+                message:"Usuário não encontrado"
+            })
+        }
+        res.status(200).json({
+            message:"Informações alteradas com sucesso!!!"
+        })
+    })
 }
 
 module.exports.addCompraUsuario = function(req, res){
-    // dado um id (usuario), atualizar usuario inserindo no array compras, as compras efetuadas
+    /**
+     * Estrutura/Model da compra
+     * {
+     *      produtos: [String, String],
+     *      valor_total: Number
+     * }
+     */
+    if(req.body.produtos && req.body.valor_total){
+        let now = new Date();
+        const compraEfetuada = {
+            id:randomstring.generate({
+                length: 6,
+                charset: 'alphabetic'}),
+            produtos:req.body.produtos,
+            valor_total:parseFloat(req.body.valor_total),
+            status:"Pendente",
+            data_compra: date.format(now, 'YYYY/MM/DD HH:mm:ss')
+        }
+
+        Usuario.updateOne({_id:req.params.id},{$push:{compras:compraEfetuada}}, function(err, result){
+            if(err){
+                res.status(404).json({
+                    message:"Usuário não encontrado"
+                })
+            }
+            res.status(200).json({
+                message:"Compra adicionada"
+            })
+        })
+    }else{
+        res.status(404).json({
+            message:"Parâmetros invalidos"
+        })
+    }
+}
+
+
+module.exports.editStatusCompra = function(req, res){
+    // dado um usuário e uma compra, altera o status para entregue
 }
 
 module.exports.deleteUsuario = function(req, res){
