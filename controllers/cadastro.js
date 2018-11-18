@@ -31,7 +31,7 @@ module.exports.post = function(req, res){
                 uf:req.body.uf,
                 cep:req.body.cep
             },
-            nivel_Acesso:1
+            nivel_acesso:1
         }
         fetch("http://localhost:3000/api/usuario", {
             method:"POST",
