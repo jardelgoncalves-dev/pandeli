@@ -113,9 +113,9 @@ module.exports.editStatusCompra = function(req, res){
             }
             // Recupera a posição da compra no array (passando a função definida anteriormente)
             let pos = usuario.compras.findIndex(getCompra)
-            // altera o status da compra
+            // Altera o status da compra
             usuario.compras[pos].status = req.body.status
-
+            // Atualiza
             Usuario.updateOne({_id:req.params.id}, usuario, function(err, result){
                 if(err){
                     res.status(404).json({
