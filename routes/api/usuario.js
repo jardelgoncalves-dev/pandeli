@@ -8,5 +8,6 @@ router.get("/:id", controller_usuario.getUsuario)
 router.post("/", controller_usuario.addUsuario)
 router.put("/:id", controller_usuario.updateUsuario)
 router.put("/compra/:id", controller_usuario.addCompraUsuario)
+router.put("/compra/update/:id/:id_compra", controller_usuario.editStatusCompra)
 
 module.exports = router;
