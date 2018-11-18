@@ -94,7 +94,7 @@ module.exports.addCompraUsuario = function(req, res){
             })
         })
     }else{
-        res.status(404).json({
+        res.status(400).json({
             message:"Parâmetros invalidos"
         })
     }
