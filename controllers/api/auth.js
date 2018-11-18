@@ -11,6 +11,7 @@ module.exports = function(req, res){
         if(req.session.autorizado){
             res.redirect("/dashboard")
         }else{
+            req.flash('error', 'Email ou Senha inválida!')
             res.redirect("/login")
         }
     })
