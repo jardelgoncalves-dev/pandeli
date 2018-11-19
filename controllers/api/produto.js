@@ -15,13 +15,34 @@ module.exports.getAllProdutos = function(req, res){
 }
 
 module.exports.getProduto = function(req, res){
-    // dado um id, retorna um produto
+    const produto = Produto.findById(req.params.id)
+    .then(function(produto){
+        res.status(200).json(produto)
+    })
 }
 
 module.exports.updateProduto = function(req, res){
-    // dado um id, atualiza informações do produto
+    Produto.updateOne({_id:req.params.id},req.body, function(err, result){
+        if(err){
+            res.status(404).json({
+                message:"Recurso não encontrado"
+            })
+        }
+        res.status(200).json({
+            message:"Produto atualizado com sucesso"
+        })
+    })
 }
 
 module.exports.deleteProduto = function(req, res){
-    // dado um id, remove o produto
+    Produto.deleteOne({_id:req.params.id}, function(err, result){
+        if(err){
+            res.status(404).json({
+                message:"Ocorreu um erro ao remover o produto"
+            })
+        }
+        res.status(200).json({
+            message:"Produto deletado com sucesso"
+        })
+    })
 }
