@@ -21,6 +21,7 @@
                                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item" href="/dashboard">Minha Página</a>
                                     <a class="dropdown-item" href="/dashboard/pedidos">Pedidos</a>
+                                    <a class="dropdown-item" href="/dashboard/produtos">Produtos</a>
                                     <a class="dropdown-item" href="/sair">Sair</a>
                                   </div>
                     </li>
@@ -37,25 +38,26 @@
                 <div style="margin-top:70px;">
                         <h2 class="text-pandeli-red text-center">Produtos</h2>
                         <br>
-                        <table class="table">
-                            <thead class="bg-pandeli">
-                                <tr>
-                                    <th scope="col" class="text-pandeli">ID</th>
-                                    <th scope="col" class="text-pandeli">Nome</th>
-                                    <th scope="col" class="text-pandeli">Ação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-pandeli-red">Mark</td>
-                                    <td class="text-pandeli-red">Otto</td>
-                                    <td>
-                                        <button type="button" class="btn btn-success"><i class="fas fa-plus-square"></i></button>
-                                        <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div id="app">
+                            <table class="table">
+                                <thead class="bg-pandeli">
+                                    <tr>
+                                        <th scope="col" class="text-pandeli">Nome</th>
+                                        <th scope="col" class="text-pandeli">Unidade</th>
+                                        <th scope="col" class="text-pandeli">Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="produto of produtos" :key="produto._id" >
+                                        <td class="text-pandeli-red">{{produto.nome}}</td>
+                                        <td class="text-pandeli-red">{{produto.unidade}}</td>
+                                        <td>
+                                            <button @click="deletaPrduto(produto._id)" type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,4 +65,28 @@
     </div>
 </main>
 <br>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data(){
+            return{
+                produtos:[]
+            }
+        },
+        mounted(){ 
+            axios.get("http://localhost:3000/api/produto")
+            .then(function(products){
+                this.produtos = products.data;
+            }.bind(this))
+        },
+        methods:{
+            deletaPrduto(id){
+                axios.delete("http://localhost:3000/api/produto/"+id)
+                .then(function(products){
+                    console.log(products.data)
+                })
+            }
+        }
+    })
+</script>
 <% include ../base/rodape.ejs %>
