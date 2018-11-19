@@ -19,3 +19,4 @@ npm test
 
 ## Colaboradores
 - Jardel Gonçalves
+- Mara Vitória
