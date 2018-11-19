@@ -81,10 +81,12 @@
         },
         methods:{
             deletaPrduto(id){
-                axios.delete("http://localhost:3000/api/produto/"+id)
-                .then(function(products){
-                    console.log(products.data)
-                })
+                if(confirm("Tem certeza?")){
+                    axios.delete("http://localhost:3000/api/produto/"+id)
+                    .then(function(products){
+                        console.log(products.data)
+                    })
+                }
             }
         }
     })
