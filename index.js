@@ -44,11 +44,13 @@ app.use("/login", require("./routes/login"));
 app.use("/dashboard", require("./routes/dashboard"));
 app.use("/cadastro", require("./routes/cadastro"));
 app.use("/dashboard", require("./routes/pedidos"));
+app.use("/dashboard", require("./routes/produtos"));
 app.use("/sair", require("./routes/logout"));
 
 // Rotas API
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/usuario", require("./routes/api/usuario"));
+app.use("/api/produto", require("./routes/api/produto"));
 
 app.listen(app.get("port"), function(){
     console.log("Server on port", app.get("port"))
