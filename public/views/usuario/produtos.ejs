@@ -38,53 +38,56 @@
                 <div style="margin-top:70px;">
                         <h2 class="text-pandeli-red text-center">Produtos</h2>
                         <br>
-                        
-                            <div id="app" class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <form>
-                                                    <div class="form-group">
-                                                        <input type="text" placeholder="Nome do produto" class="form-control">
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="form-group col-md-6">
-                                                            <input type="text" placeholder="Unidade" class="form-control">
-                                                        </div>
-                                                        <div class="form-group col-md-6">
-                                                            <input type="text" placeholder="Preço" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <textarea cols="20" rows="5" class="form-control" placeholder="Insira os ingredientes"></textarea>
-                                                    </div>
-                                                    <button v-if="edit === false" class="btn btn-pandeli btn-block"> Enviar </button>
-                                                    <button v-else-if="edit === true" class="btn btn-primary btn-block"> Atualizar </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div> 
-                                    <div class="col-md-5">
-                                        <table class="table">
-                                            <thead class="bg-pandeli">
-                                                <tr>
-                                                    <th scope="col" class="text-pandeli">Nome</th>
-                                                    <th scope="col" class="text-pandeli">Unidade</th>
-                                                    <th scope="col" class="text-pandeli">Ação</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="produto of produtos" :key="produto._id" >
-                                                    <td class="text-pandeli-red">{{produto.nome}}</td>
-                                                    <td class="text-pandeli-red">{{produto.unidade}}</td>
-                                                    <td>
-                                                        <button @click="deletaPrduto(produto._id)" type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                        <div id="app" class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div v-if="message !== ''" class="alert alert-info" role="alert">
+                                        {{message}}
                                     </div>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form @submit.prevent="sendProduto">
+                                                <div class="form-group">
+                                                    <input type="text" v-model="produto.nome" placeholder="Nome do produto" class="form-control">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <input type="text" v-model="produto.unidade" placeholder="Unidade" class="form-control">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <input type="text" v-model="produto.preco" placeholder="Preço" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <textarea cols="20" rows="5" v-model="produto.ingredientes" class="form-control" placeholder="Insira os ingredientes"></textarea>
+                                                </div>
+                                                <button v-if="edit === false" class="btn btn-info btn-block"> Enviar </button>
+                                                <button v-else-if="edit === true" class="btn btn-success btn-block"> Atualizar </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="col-md-6">
+                                    <table class="table">
+                                        <thead class="bg-pandeli">
+                                            <tr>
+                                                <th scope="col" class="text-pandeli">Nome</th>
+                                                <th scope="col" class="text-pandeli">Unidade</th>
+                                                <th scope="col" class="text-pandeli">Ação</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="produto of produtos" :key="produto._id" >
+                                                <td class="text-pandeli-red">{{produto.nome}}</td>
+                                                <td class="text-pandeli-red">{{produto.unidade}}</td>
+                                                <td>
+                                                    <button @click="editProduto(produto._id)" type="button" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></button>
+                                                    <button @click="deletaPrduto(produto._id)" type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -95,12 +98,23 @@
 </main>
 <br>
 <script>
+    class Produto {
+        constructor(nome,unidade,preco,ingredientes){
+            this.nome = nome;
+            this.unidade = unidade;
+            this.preco = preco;
+            this.ingredientes = ingredientes;
+        }
+    }
     var app = new Vue({
         el:"#app",
         data(){
             return{
                 edit:false,
-                produtos:[]
+                produtos:[],
+                produto: new Produto(),
+                id_produto:'',
+                message:""
             }
         },
         mounted(){ 
@@ -108,19 +122,62 @@
         },
         methods:{
             getProdutos(){
-                axios.get("http://localhost:3000/api/produto")
+                axios.get("/api/produto")
                 .then(function(products){
                     this.produtos = products.data;
                 }.bind(this))
             },
             deletaPrduto(id){
                 if(confirm("Tem certeza?")){
-                    axios.delete("http://localhost:3000/api/produto/"+id)
-                    .then(function(data){
-                        console.log(data)
+                    axios.delete("/api/produto/"+id)
+                    .then(function(resp){
+                        this.message = resp.data.message
                         this.getProdutos()
                     }.bind(this))
                 }
+            },
+            sendProduto(){
+                if (this.edit == false){
+                    console.log(this.produto.nome)
+                    axios.post("/api/produto", {
+                        nome:this.produto.nome,
+                        preco:this.produto.preco,
+                        ingredientes:this.produto.ingredientes,
+                        unidade:this.produto.unidade
+                    })
+                    .then(function(resp){
+                        this.getProdutos()
+                        this.edit = false
+                        this.message = resp.data.message
+                    }.bind(this))
+                } else {
+                    axios.put("/api/produto/" + this.id_produto,{
+                        nome:this.produto.nome,
+                        preco:this.produto.preco,
+                        ingredientes:this.produto.ingredientes,
+                        unidade:this.produto.unidade
+                    })
+                    .then(function(resp){
+                        console.log(resp.data)
+                        this.edit = false
+                        this.message = resp.data.message
+                        this.getProdutos()
+                    }.bind(this))
+                }
+                this.produto = new Produto()
+            },
+            editProduto(id){
+                axios.get("/api/produto/"+id)
+                
+                .then(function(product){
+                    console.log(product.data)
+                    this.produto = new Produto(
+                                    product.data.nome,product.data.unidade, 
+                                    product.data.preco, product.data.ingredientes
+                                )
+                    this.edit = true
+                    this.id_produto = product.data._id
+                }.bind(this))
             }
         }
     })
