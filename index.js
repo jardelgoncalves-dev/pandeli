@@ -51,6 +51,7 @@ app.use("/sair", require("./routes/logout"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/usuario", require("./routes/api/usuario"));
 app.use("/api/produto", require("./routes/api/produto"));
+app.use("/api/publicacao", require("./routes/api/publicacao"));
 
 app.listen(app.get("port"), function(){
     console.log("Server on port", app.get("port"))
