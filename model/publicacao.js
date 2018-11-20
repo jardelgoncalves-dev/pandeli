@@ -1,7 +1,13 @@
-// Importar o mongoose
+const mongoose = require("mongoose");
 
-// Criar uma instancia do Schema
+const Schema = mongoose.Schema;
 
-// Usar a instancia do Schema para criar um Schema da tabela da Publicacao
+let now = new Date();
+const Publicacao = new Schema({
+    titulo:String,
+    data:String,
+    conteudo:String,
+    foto:String
+});
 
-// Exportar o modelo/schema
+module.exports = mongoose.model("Publicacao", Publicacao);
