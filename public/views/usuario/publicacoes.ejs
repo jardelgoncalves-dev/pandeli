@@ -1,1 +1,182 @@
-<!-- Página que lista todas as publicações cadastradas -->
+<% include ../base/cabecalho.ejs %>
+<main>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-pandeli">
+            <a class="navbar-brand" href=""><strong class="text-pandeli">Pandeli</strong></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-pandeli" href="/"><i class="fas fa-home"></i> Inicio</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cardapio"><strong><i class="fas fa-book-open"></i> Cardápio</strong></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <strong><i class="fas fa-smile-wink fa-lg"></i> Ola, <%= usuario.nome %> </strong>
+                                  </a>
+                                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="/dashboard">Minha Página</a>
+                                    <a class="dropdown-item" href="/dashboard/pedidos">Pedidos</a>
+                                    <a class="dropdown-item" href="/dashboard/produtos">Produtos</a>
+                                    <a class="dropdown-item" href="/dashboard/publicacoes">Produtos</a>
+                                    <a class="dropdown-item" href="/sair">Sair</a>
+                                  </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><strong><i class="fas fa-shopping-cart"></i> Carrinho</strong></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container" data-aos="fade-left" data-aos-anchor="#example-anchor" data-aos-offset="500">
+        <div class="row">
+            <div class="col-md-12">
+                <div style="margin-top:70px;">
+                        <h2 class="text-pandeli-red text-center">Publicações</h2>
+                        <br>
+                        <div id="app" class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div v-if="message !== ''" class="alert alert-info" role="alert">
+                                        {{message}}
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form @submit.prevent="sendPublicacao" enctype="multipart/form-data">
+                                                <div class="form-group">
+                                                    <input type="text" v-model="publicacao.titulo" placeholder="Titulo" class="form-control" required>
+                                                </div>
+                                                
+                                                <div v-if="edit===false" class="form-group col-md-6">
+                                                    <input type="file" @change="onFileSelected" class="form-control-file">
+                                                </div>
+                                            
+                                                <div class="form-group">
+                                                    <textarea cols="20" rows="5" v-model="publicacao.conteudo" class="form-control" placeholder="Conteúdo" required></textarea>
+                                                </div>
+                                                <button v-if="edit === false" class="btn btn-info btn-block"> Enviar </button>
+                                                <button v-else-if="edit === true" class="btn btn-success btn-block"> Atualizar </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="col-md-6">
+                                    <table class="table">
+                                        <thead class="bg-pandeli">
+                                            <tr>
+                                                <th scope="col" class="text-pandeli">Titulo</th>
+                                                <th scope="col" class="text-pandeli">Data</th>
+                                                <th scope="col" class="text-pandeli">Ação</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="publicacao of publicacoes" :key="publicacao._id" >
+                                                <td class="text-pandeli-red">{{publicacao.titulo}}</td>
+                                                <td class="text-pandeli-red">{{publicacao.data}}</td>
+                                                <td>
+                                                    <button @click="editPublicacao(publicacao._id)" type="button" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></button>
+                                                    <button @click="deletaPublicacao(publicacao._id)" type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<br>
+
+
+<script>
+
+    class Publicacao{
+        constructor(titulo, conteudo){
+            this.titulo = titulo
+            this.conteudo = conteudo
+            this.file = null
+        }
+    }
+    
+    var app = new Vue({
+        el:"#app",
+        data(){
+            return{
+                edit:false,
+                publicacoes:[],
+                publicacao: new Publicacao(),
+                message:"",
+                id_publicacao:""
+            }
+        },
+        mounted(){
+            this.getPublicacao()
+        },
+        methods:{
+            getPublicacao(){
+                axios.get("/api/publicacao")
+                .then(function(publication){
+                    this.publicacoes = publication.data;
+                }.bind(this))
+            },
+            sendPublicacao(){
+                if (this.edit === false){
+                    const fd = new FormData();
+                    fd.append("images", this.publicacao.file)
+                    fd.append("titulo", this.publicacao.titulo)
+                    fd.append("conteudo", this.publicacao.conteudo)
+                    axios.post("/api/publicacao", fd)
+                    .then(function(resp){
+                        this.edit = false
+                        this.message = resp.data.message
+                        this.getPublicacao()
+                    }.bind(this))
+
+                } else {
+                    axios.put("/api/publicacao/" + this.id_publicacao, {
+                        titulo:this.publicacao.titulo,
+                        conteudo:this.publicacao.conteudo
+                    })
+                    .then(function(resp){
+                        this.edit = false
+                        this.message = resp.data.message
+                        this.getPublicacao()
+                    }.bind(this))
+                }
+                this.publicacao = new Publicacao()
+            },
+            onFileSelected(event){
+                this.publicacao.file = event.target.files[0]
+            },
+            editPublicacao(id){
+                axios.get("/api/publicacao/"+id)
+                .then(function(publication){
+                    this.publicacao = new Publicacao(
+                        publication.data.titulo, publication.data.conteudo
+                    )
+                    this.id_publicacao = publication.data._id
+                    this.edit = true
+                }.bind(this))
+            },
+            deletaPublicacao(id){
+                if(confirm("Tem certeza?")){
+                    axios.delete("/api/publicacao/"+id)
+                    .then(function(resp){
+                        this.message = resp.data.message
+                        this.getPublicacao()
+                    }.bind(this))
+                }
+            }
+        }
+    })
+</script>
+<% include ../base/rodape.ejs %>

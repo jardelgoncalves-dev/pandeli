@@ -22,6 +22,7 @@
                                     <a class="dropdown-item" href="/dashboard">Minha Página</a>
                                     <a class="dropdown-item" href="/dashboard/pedidos">Pedidos</a>
                                     <a class="dropdown-item" href="/dashboard/produtos">Produtos</a>
+                                    <a class="dropdown-item" href="/dashboard/publicacoes">Produtos</a>
                                     <a class="dropdown-item" href="/sair">Sair</a>
                                   </div>
                     </li>
@@ -158,7 +159,6 @@
                         unidade:this.produto.unidade
                     })
                     .then(function(resp){
-                        console.log(resp.data)
                         this.edit = false
                         this.message = resp.data.message
                         this.getProdutos()
@@ -170,7 +170,6 @@
                 axios.get("/api/produto/"+id)
                 
                 .then(function(product){
-                    console.log(product.data)
                     this.produto = new Produto(
                                     product.data.nome,product.data.unidade, 
                                     product.data.preco, product.data.ingredientes
