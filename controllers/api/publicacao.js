@@ -1,6 +1,7 @@
 const Publicacao = require("../../model/publicacao");
 const date = require('date-and-time');
-var shortHash = require('short-hash');
+const shortHash = require('short-hash');
+const fs = require("fs");
 
 module.exports.getPub = function(req, res){
     const publicacao = Publicacao.findById(req.params.id)
@@ -34,6 +35,10 @@ module.exports.addPub = function(req, res){
         res.status(200).json({
             message:"Publicação cadastrada com sucesso"
         })
+    }else {
+        res.status(404).json({
+            message:"É necessário enviar uma imagem!!!"
+        })
     }
 }
 
@@ -51,14 +56,22 @@ module.exports.updatePub = function(req, res){
 }
 
 module.exports.deletePub = function(req, res){
-    Publicacao.deleteOne({_id:req.params.id}, function(err, result){
-        if(err){
-            res.status(404).json({
-                message:"Erro ao tentar remover publicação"
+    const pub = Publicacao.findById(req.params.id)
+    .then(function(pub){
+        fs.unlink('./public/dist/img/pub/'+ pub.foto, (err) => {
+            if (err) throw err;
+            console.log("Arquivo ", pub.foto, " deletado")
+        });
+
+        Publicacao.deleteOne({_id:req.params.id}, function(err, result){
+            if(err){
+                res.status(404).json({
+                    message:"Erro ao tentar remover publicação"
+                })
+            }
+            res.status(200).json({
+                message:"Publicação deletada com sucesso"
             })
-        }
-        res.status(200).json({
-            message:"Publicação deletada com sucesso"
         })
     })
 }

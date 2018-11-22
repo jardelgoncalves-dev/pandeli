@@ -1,10 +1,33 @@
 const Produto = require("../../model/produtos");
+const shortHash = require('short-hash');
+const fs = require("fs");
+
+
 module.exports.addProduto = function(req, res){
-    const produto = new Produto(req.body)
-    produto.save()
-    res.status(200).json({
-        message:"Produto cadastrado com sucesso"
-    })
+    if(req.files){
+        let file = req.files.images
+        let now = new Date();
+        let hash = shortHash(now+req.files.images.name)
+        file.mv("./public/dist/img/product/" +hash + ".png")
+
+        const new_prod = {
+            nome:req.body.nome,
+            unidade:req.body.unidade,
+            ingredientes:req.body.ingredientes,
+            preco:req.body.preco,
+            foto:hash+".png"
+        }
+        const produto = new Produto(new_prod)
+        produto.save()
+        res.status(200).json({
+            message:"Produto cadastrado com sucesso"
+        })
+    } else {
+        res.status(404).json({
+            message:"É necessário enviar uma imagem!!!"
+        })
+    }
+    
 }
 
 module.exports.getAllProdutos = function(req, res){
@@ -35,14 +58,23 @@ module.exports.updateProduto = function(req, res){
 }
 
 module.exports.deleteProduto = function(req, res){
-    Produto.deleteOne({_id:req.params.id}, function(err, result){
-        if(err){
-            res.status(404).json({
-                message:"Ocorreu um erro ao remover o produto"
+    const product = Produto.findById(req.params.id)
+    .then(function(product){
+        fs.unlink('./public/dist/img/product/'+ product.foto, (err) => {
+            if (err) throw err;
+            console.log("Arquivo ", product.foto, " deletado")
+        });
+
+        Produto.deleteOne({_id:product._id}, function(err, result){
+            if(err){
+                res.status(404).json({
+                    message:"Ocorreu um erro ao remover o produto"
+                })
+            }
+            res.status(200).json({
+                message:"Produto deletado com sucesso"
             })
-        }
-        res.status(200).json({
-            message:"Produto deletado com sucesso"
         })
-    })
+
+    });
 }
