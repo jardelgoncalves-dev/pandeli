@@ -1,5 +1,6 @@
 const Publicacao = require("../../model/publicacao");
 const date = require('date-and-time');
+var shortHash = require('short-hash');
 
 module.exports.getPub = function(req, res){
     const publicacao = Publicacao.findById(req.params.id)
@@ -16,18 +17,24 @@ module.exports.getAllPub = function(req, res){
 }
 
 module.exports.addPub = function(req, res){
-    let now = new Date();
-    const pub = {
-        titulo:req.body.titulo,
-        conteudo:req.body.conteudo,
-        foto:req.body.foto,
-        data:date.format(now, 'YYYY/MM/DD HH:mm:ss')
+    if(req.files){
+        let file = req.files.images
+        let now = new Date();
+        let hash = shortHash(now+req.files.images.name)
+        file.mv("./public/dist/img/pub/" +hash + ".png")
+
+        const pub = {
+            titulo:req.body.titulo,
+            conteudo:req.body.conteudo,
+            foto:hash+".png",
+            data:date.format(now, 'DD/MM/YYYY HH:mm:ss')
+        }
+        const publicacao = new Publicacao(pub)
+        publicacao.save()
+        res.status(200).json({
+            message:"Publicação cadastrada com sucesso"
+        })
     }
-    const publicacao = new Publicacao(pub)
-    publicacao.save()
-    res.status(200).json({
-        message:"Publicação cadastrada com sucesso"
-    })
 }
 
 module.exports.updatePub = function(req, res){
