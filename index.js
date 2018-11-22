@@ -6,6 +6,7 @@ const expressSession = require("express-session");
 const bodyParse = require("body-parser");
 const expressValidator = require("express-validator");
 const flash = require("connect-flash");
+const upload = require("express-fileupload");
 
 // Configuração e Conexão com o mongodb
 mongoose.set('debug', true);
@@ -35,6 +36,7 @@ app.use(expressSession({
 }));
 app.use(expressValidator());
 app.use(flash());
+app.use(upload())
 
 
 // Rotas
@@ -45,6 +47,7 @@ app.use("/dashboard", require("./routes/dashboard"));
 app.use("/cadastro", require("./routes/cadastro"));
 app.use("/dashboard", require("./routes/pedidos"));
 app.use("/dashboard", require("./routes/produtos"));
+app.use("/dashboard", require("./routes/publicacoes"))
 app.use("/sair", require("./routes/logout"));
 
 // Rotas API
