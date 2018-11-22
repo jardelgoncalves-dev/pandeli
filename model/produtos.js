@@ -6,7 +6,8 @@ const Produtos = new Schema({
     nome:String,
     preco:Number,
     unidade:String,
-    ingredientes:String
+    ingredientes:String,
+    foto:String
 },{
     versionKey: false
 })

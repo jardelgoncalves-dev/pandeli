@@ -49,18 +49,21 @@
                                         <div class="card-body">
                                             <form @submit.prevent="sendProduto">
                                                 <div class="form-group">
-                                                    <input type="text" v-model="produto.nome" placeholder="Nome do produto" class="form-control">
+                                                    <input type="text" v-model="produto.nome" placeholder="Nome do produto" class="form-control" required>
                                                 </div>
                                                 <div class="row">
                                                     <div class="form-group col-md-6">
-                                                        <input type="text" v-model="produto.unidade" placeholder="Unidade" class="form-control">
+                                                        <input type="text" v-model="produto.unidade" placeholder="Unidade" class="form-control" required>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <input type="text" v-model="produto.preco" placeholder="Preço" class="form-control">
+                                                        <input type="text" v-model="produto.preco" placeholder="Preço" class="form-control" required>
                                                     </div>
                                                 </div>
+                                                <div v-if="edit===false" class="form-group col-md-6">
+                                                    <input type="file" @change="onFileSelected" class="form-control-file">
+                                                </div>
                                                 <div class="form-group">
-                                                    <textarea cols="20" rows="5" v-model="produto.ingredientes" class="form-control" placeholder="Insira os ingredientes"></textarea>
+                                                    <textarea cols="20" rows="5" v-model="produto.ingredientes" class="form-control" placeholder="Insira os ingredientes" required></textarea>
                                                 </div>
                                                 <button v-if="edit === false" class="btn btn-info btn-block"> Enviar </button>
                                                 <button v-else-if="edit === true" class="btn btn-success btn-block"> Atualizar </button>
@@ -105,6 +108,7 @@
             this.unidade = unidade;
             this.preco = preco;
             this.ingredientes = ingredientes;
+            this.file = null;
         }
     }
     var app = new Vue({
@@ -139,13 +143,14 @@
             },
             sendProduto(){
                 if (this.edit == false){
-                    console.log(this.produto.nome)
-                    axios.post("/api/produto", {
-                        nome:this.produto.nome,
-                        preco:this.produto.preco,
-                        ingredientes:this.produto.ingredientes,
-                        unidade:this.produto.unidade
-                    })
+                    const fd = new FormData()
+                    fd.append("images", this.produto.file)
+                    fd.append("nome", this.produto.nome)
+                    fd.append("preco", this.produto.preco)
+                    fd.append("ingredientes", this.produto.ingredientes)
+                    fd.append("unidade", this.produto.unidade)
+
+                    axios.post("/api/produto", fd)
                     .then(function(resp){
                         this.getProdutos()
                         this.edit = false
@@ -165,6 +170,9 @@
                     }.bind(this))
                 }
                 this.produto = new Produto()
+            },
+            onFileSelected(event){
+                this.produto.file = event.target.files[0]
             },
             editProduto(id){
                 axios.get("/api/produto/"+id)
