@@ -135,10 +135,13 @@
                     fd.append("titulo", this.publicacao.titulo)
                     fd.append("conteudo", this.publicacao.conteudo)
                     axios.post("/api/publicacao", fd)
-                    .then(function(resp){
+                    .then( function(resp){
                         this.edit = false
                         this.message = resp.data.message
                         this.getPublicacao()
+                    }.bind(this))
+                    .catch(function(resp){
+                        this.message = "É necessário enviar uma imagem !!!"
                     }.bind(this))
 
                 } else {

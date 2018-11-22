@@ -156,6 +156,10 @@
                         this.edit = false
                         this.message = resp.data.message
                     }.bind(this))
+                    .catch(function(){
+                        this.message = "É necessário enviar uma imagem !!!"
+                    })
+
                 } else {
                     axios.put("/api/produto/" + this.id_produto,{
                         nome:this.produto.nome,
