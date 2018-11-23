@@ -25,7 +25,6 @@ app.set("port", 3000)
 
 // Middlewares 
 app.use(express.static("./public"));
-
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(bodyParse.urlencoded({extended:true}));
