@@ -52,11 +52,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-pandeli-red">Mark</td>
-                                    <td class="text-pandeli-red">Otto</td>
-                                    <td class="text-pandeli-red">@mdo</td>
-                                </tr>
+                                <% if (usuario.compras.length > 0){ %>
+                                    <% for (let i = 0; i < usuario.compras.length; i++){ %>
+                                    <tr>
+                                        <td class="text-pandeli-red"> <%= usuario.compras[i].produtos %> </td>
+                                        <td class="text-pandeli-red"> <%= usuario.compras[i].data_compra %> </td>
+                                        <td class="text-pandeli-red"> <%= usuario.compras[i].status %> </td>
+                                    </tr>
+                                    <% } %>
+                                <% } %>
                             </tbody>
                         </table>
                     </div>
