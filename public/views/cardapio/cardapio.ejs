@@ -41,52 +41,52 @@
     </header>
     <div class="container" data-aos="fade-left" data-aos-anchor="#example-anchor" data-aos-offset="500">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" id="app">
                 <div style="margin-top:70px;">
                     <h1 class="text-pandeli-red">Cardápio</h1>
                     <hr style="border: 2px solid #d46a56ff;">
 
-                    <hr class="featurette-divider">
-                    <div class="row featurette" data-aos="zoom-in">
-                        <div class="col-md-8 order-md-2 col-sm-12">
-                            <h1 class="featurette-heading text-center">Nome do Produto</h1>
-                            <p style="font-size:18px;"><strong class="text-pandeli-red">Ingredientes: </strong>ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-                            <p style="font-size:30px;"><strong class="text-pandeli-red">Preço: </strong>R$ 00.00 (<span class="text-pandeli-red">Kg</span>)</p>
-                            <button type="button" class="btn btn-info float-right btn-lg">Comprar</button>
+
+                        
+                        <div class="row featurette" data-aos="zoom-in" v-for="produto of produtos" :key="produto._id" style="margin-top:15px">
+                            <div class="col-md-8 order-md-2 col-sm-12">
+                                <h1 class="featurette-heading text-center">{{produto.nome}}</h1>
+                                <p style="font-size:18px;"><strong class="text-pandeli-red">Ingredientes: </strong> {{produto.ingredientes}}</p>
+                                <p style="font-size:30px;"><strong class="text-pandeli-red">Preço: </strong>R$ {{produto.preco}} (<span class="text-pandeli-red">{{produto.unidade}}</span>)</p>
+                                <button type="button" class="btn btn-info float-right btn-lg">Comprar</button>
+                            </div>
+                            <div class="col-md-4 order-md-1">
+                                <img class="featurette-image img-fluid mx-auto" width="300" :src="'/dist/img/product/' + produto.foto" alt="Imagem do Produto">
+                            </div>
                         </div>
-                        <div class="col-md-4 order-md-1">
-                            <img class="featurette-image img-fluid mx-auto" width="300" src="dist/img/mode400.png" alt="Generic placeholder image">
-                        </div>
-                    </div>
-        
-                    <hr class="featurette-divider">
-                    <div class="row featurette" data-aos="zoom-in">
-                        <div class="col-md-8 order-md-2 col-sm-12">
-                            <h1 class="featurette-heading text-center">Nome do Produto</h1>
-                            <p style="font-size:18px;"><strong class="text-pandeli-red">Ingredientes: </strong>ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-                            <p style="font-size:30px;"><strong class="text-pandeli-red">Preço: </strong>R$ 00.00 (<span class="text-pandeli-red">Kg</span>)</p>
-                            <button type="button" class="btn btn-info float-right btn-lg">Comprar</button>
-                        </div>
-                        <div class="col-md-4 order-md-1">
-                            <img class="featurette-image img-fluid mx-auto" width="300" src="dist/img/mode400.png" alt="Generic placeholder image">
-                        </div>
-                    </div>
-        
-                    <hr class="featurette-divider">
-                    <div class="row featurette" data-aos="zoom-in">
-                        <div class="col-md-8 order-md-2 col-sm-12">
-                            <h1 class="featurette-heading text-center">Nome do Produto</h1>
-                            <p style="font-size:18px;"><strong class="text-pandeli-red">Ingredientes: </strong>ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-                            <p style="font-size:30px;"><strong class="text-pandeli-red">Preço: </strong>R$ 00.00 (<span class="text-pandeli-red">Kg</span>)</p>
-                            <button type="button" class="btn btn-info float-right btn-lg">Comprar</button>
-                        </div>
-                        <div class="col-md-4 order-md-1">
-                            <img class="featurette-image img-fluid mx-auto" width="300" src="dist/img/mode400.png" alt="Generic placeholder image">
-                        </div>
-                    </div>
+
+
                 </div>
             </div>
         </div>
     </div>
-                
+<script>
+
+    var app = new Vue({
+        el:"#app",
+        data(){
+            return {
+                produtos:[]
+            }
+        },
+        mounted(){
+            this.getProdutos()
+        },
+        methods:{
+            getProdutos(){
+                axios.get("/api/produto")
+                .then(function(resp){
+                    this.produtos = resp.data
+                    console.log(this.produtos)
+                }.bind(this))
+            }
+        }
+    })
+
+</script>
 <% include ../base/rodape.ejs %>
