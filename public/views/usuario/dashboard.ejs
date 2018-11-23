@@ -20,9 +20,11 @@
                                   </a>
                                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item" href="/dashboard">Minha Página</a>
-                                    <a class="dropdown-item" href="/dashboard/pedidos">Pedidos</a>
-                                    <a class="dropdown-item" href="/dashboard/produtos">Produtos</a>
-                                    <a class="dropdown-item" href="/dashboard/publicacoes">Publicações</a>
+                                    <% if(usuario.nivel_acesso === 2){ %>
+                                        <a class="dropdown-item" href="/dashboard/pedidos">Pedidos</a>
+                                        <a class="dropdown-item" href="/dashboard/produtos">Produtos</a>
+                                        <a class="dropdown-item" href="/dashboard/publicacoes">Publicações</a>
+                                    <% } %>
                                     <a class="dropdown-item" href="/sair">Sair</a>
                                   </div>
                     </li>
@@ -40,6 +42,16 @@
                     <h1 class="text-pandeli-red">Olá, <%= usuario.nome %></h1>
                     <hr style="border: 2px solid #d46a56ff;">
 
+                    <% if(erros.length > 0){ %>
+                        <div class="alert alert-danger" role="alert">
+                            <ul>
+                                <% for(let i=0;erros.length > i; i++){ %>
+                                    <li><%= erros[i] %></li>
+                                <% } %> 
+                            </ul>
+                        </div>
+                    <% } %>
+                    
                     <div style="margin-top:120px">
                         <h2 class="text-pandeli-red text-center">Meus Pedidos</h2>
                         <br>

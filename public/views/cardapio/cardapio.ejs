@@ -25,9 +25,11 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="/dashboard">Minha Página</a>
-                                <a class="dropdown-item" href="/dashboard/pedidos">Pedidos</a>
-                                <a class="dropdown-item" href="/dashboard/produtos">Produtos</a>
-                                <a class="dropdown-item" href="/dashboard/publicacoes">Publicações</a>
+                                <% if(usuario.nivel_acesso === 2){ %>
+                                    <a class="dropdown-item" href="/dashboard/pedidos">Pedidos</a>
+                                    <a class="dropdown-item" href="/dashboard/produtos">Produtos</a>
+                                    <a class="dropdown-item" href="/dashboard/publicacoes">Publicações</a>
+                                <% } %>
                                 <a class="dropdown-item" href="/sair">Sair</a>
                             </div>
                         </li>
@@ -46,8 +48,6 @@
                     <h1 class="text-pandeli-red">Cardápio</h1>
                     <hr style="border: 2px solid #d46a56ff;">
 
-
-                        
                         <div class="row featurette" data-aos="zoom-in" v-for="produto of produtos" :key="produto._id" style="margin-top:15px">
                             <div class="col-md-8 order-md-2 col-sm-12">
                                 <h1 class="featurette-heading text-center">{{produto.nome}}</h1>
@@ -56,10 +56,9 @@
                                 <button type="button" class="btn btn-info float-right btn-lg">Comprar</button>
                             </div>
                             <div class="col-md-4 order-md-1">
-                                <img class="featurette-image img-fluid mx-auto" width="300" :src="'/dist/img/product/' + produto.foto" alt="Imagem do Produto">
+                                <img class="featurette-image img-fluid mx-auto img-thumbnail" width="300" :src="'/dist/img/product/' + produto.foto" alt="Imagem do Produto">
                             </div>
                         </div>
-
 
                 </div>
             </div>
@@ -82,7 +81,6 @@
                 axios.get("/api/produto")
                 .then(function(resp){
                     this.produtos = resp.data
-                    console.log(this.produtos)
                 }.bind(this))
             }
         }
