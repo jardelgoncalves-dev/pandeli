@@ -9,5 +9,6 @@ router.post("/", controller_usuario.addUsuario)
 router.put("/:id", controller_usuario.updateUsuario)
 router.put("/compra/:id", controller_usuario.addCompraUsuario)
 router.put("/compra/update/:id/:id_compra", controller_usuario.editStatusCompra)
+router.delete("/compra/delete/:id/:id_compra", controller_usuario.deleteCompra)
 
 module.exports = router;
