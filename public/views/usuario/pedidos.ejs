@@ -35,7 +35,7 @@
     </header>
     <div class="container" data-aos="fade-left" data-aos-anchor="#example-anchor" data-aos-offset="500">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" id="app">
                 <div style="margin-top:70px;">
                         <h2 class="text-pandeli-red text-center">Pedidos</h2>
                         <br>
@@ -49,12 +49,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-pandeli-red">Mark</td>
-                                    <td class="text-pandeli-red">Otto</td>
-                                    <td class="text-pandeli-red">@mdo</td>
+                                <tr v-for="compra of all_compras" :key="compra.id_compra">
+                                    <td class="text-pandeli-red">{{compra.produtos}}</td>
+                                    <td class="text-pandeli-red">{{compra.data_compra}}</td>
+                                    <td class="text-pandeli-red">{{compra.status}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-success"><i class="fas fa-plus-square"></i></button>
+                                        <button @click="pedidoEntregue(compra.id_user, compra.id_compra)" v-if="compra.status !== 'Entregue'" type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
                                         <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -67,4 +67,65 @@
     </div>
 </main>
 <br>
+<script>
+    class Compra{
+        constructor(id_user, id_compra, produtos, data_compra, status) {
+            this.id_user = id_user
+            this.id_compra = id_compra
+            this.produtos = produtos
+            this.data_compra = data_compra
+            this.status = status
+        }
+    }
+
+    var app = new Vue({
+        el:"#app",
+        data(){
+            return {
+                all_compras:[]
+            }
+        },
+        mounted(){
+            this.getAPedidos();
+        },
+        methods:{
+            getAPedidos(){
+                axios.get("/api/usuario")
+                .then(function(users){
+                    for (let i = 0; i < users.data.length; i ++){
+                        for (let j = 0; j < users.data[i].compras.length; j++){
+                            let compra = new Compra(
+                                users.data[i]._id, users.data[i].compras[j].id,
+                                this.unicaLinha(users.data[i].compras[j].produtos), users.data[i].compras[j].data_compra,
+                                users.data[i].compras[j].status
+                            )
+                            this.all_compras.push(compra)
+                        }
+                    }
+                }.bind(this))
+            },
+            unicaLinha(array){
+                let produtos = ""
+                for (let i=0;i < array.length;i++){
+                    if (i +1 !== array.length){
+                        produtos += array[i]+ ", "
+                    }else{
+                        produtos+= array[i]
+                    }
+                }
+                return produtos
+            },
+            pedidoEntregue(id_user, id_compra){
+                axios.put("/api/usuario/compra/update/"+id_user+"/"+id_compra,{
+                    status:"Entregue"
+                })
+                .then(function(resp){
+                    this.all_compras=[]
+                    this.getAPedidos()
+                }.bind(this))
+            }
+        }
+    })
+
+</script>
 <% include ../base/rodape.ejs %>

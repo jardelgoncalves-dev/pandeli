@@ -35,7 +35,7 @@
     </header>
     <div class="container" data-aos="fade-left" data-aos-anchor="#example-anchor" data-aos-offset="500">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" id="app">
                 <div style="margin-top:70px;">
                     <h1 class="text-pandeli-red">Olá, <%= usuario.nome %></h1>
                     <hr style="border: 2px solid #d46a56ff;">
@@ -52,15 +52,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% if (usuario.compras.length > 0){ %>
-                                    <% for (let i = 0; i < usuario.compras.length; i++){ %>
-                                    <tr>
-                                        <td class="text-pandeli-red"> <%= usuario.compras[i].produtos %> </td>
-                                        <td class="text-pandeli-red"> <%= usuario.compras[i].data_compra %> </td>
-                                        <td class="text-pandeli-red"> <%= usuario.compras[i].status %> </td>
-                                    </tr>
-                                    <% } %>
-                                <% } %>
+                                <tr v-for="compra of compras" :key="compra.id">
+                                    <td class="text-pandeli-red">{{unicaLinha(compra.produtos)}}</td>
+                                    <td class="text-pandeli-red">{{compra.data_compra}}</td>
+                                    <td class="text-pandeli-red">{{compra.status}}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -70,4 +66,39 @@
     </div>
 </main>
 <br>
+<script>
+    var id_u = "<%- usuario._id %>"
+    var app = new Vue({
+        el:"#app",
+        data(){
+            return {
+                compras:[]
+            }
+        },
+        mounted(){
+            this.minhasCompras();
+        },
+        methods:{
+            minhasCompras(){
+                axios.get("/api/usuario/"+ id_u)
+                .then(function(resp){
+                    this.compras = resp.data.compras
+                }.bind(this))
+            },
+            unicaLinha(array){
+                let produtos = ""
+                for (let i=0;i < array.length;i++){
+                    if (i +1 !== array.length){
+                        produtos += array[i]+ ", "
+                    }else{
+                        produtos+= array[i]
+                    }
+                }
+                return produtos
+            }
+        }
+    })
+
+</script>
+
 <% include ../base/rodape.ejs %>
