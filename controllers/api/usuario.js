@@ -134,6 +134,37 @@ module.exports.editStatusCompra = function(req, res){
     })
 }
 
+module.exports.deleteCompra = function(req, res){
+    Usuario.findById(req.params.id)
+    .then(function(usuario){
+        function getCompra(array){
+            if (array.id === req.params.id_compra){
+                return array
+            }
+        }
+        compra_update = []
+        let pos = usuario.compras.findIndex(getCompra)
+        for (let i=0;i < usuario.compras.length;i++){
+            if (i !== pos){
+                compra_update.push(usuario.compras[i])
+            }
+        }
+        usuario.compras = compra_update
+
+        Usuario.updateOne({_id:req.params.id}, usuario, function(err, result){
+            if(err){
+                res.status(404).json({
+                    message:"Ocorreu um erro ao tentar remover a compra"
+                })
+            }
+            res.status(200).json({
+                message:"Compra removida"
+            })
+        })
+    })
+}
+
+
 module.exports.deleteUsuario = function(req, res){
     // dado um id, remove usuário da base de dados
 }
