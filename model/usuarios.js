@@ -10,7 +10,7 @@ const Usuarios = new Schema({
     cpf:String,
     endereco:{
         rua:String,
-        numero:Number,
+        numero:String,
         bairro:String,
         cidade:String,
         uf:String,
