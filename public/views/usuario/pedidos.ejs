@@ -55,7 +55,7 @@
                                     <td class="text-pandeli-red">{{compra.status}}</td>
                                     <td>
                                         <button @click="pedidoEntregue(compra.id_user, compra.id_compra)" v-if="compra.status !== 'Entregue'" type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                        <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        <button @click="deleteCompra(compra.id_user, compra.id_compra)" type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -123,6 +123,15 @@
                     this.all_compras=[]
                     this.getAPedidos()
                 }.bind(this))
+            }, 
+            deleteCompra(id_user, id_compra){
+                if(confirm("Tem certeza?")){
+                    axios.delete("/api/usuario/compra/delete/"+id_user+"/"+id_compra)
+                    .then(function(resp){
+                        this.all_compras=[]
+                        this.getAPedidos()
+                    }.bind(this))
+                }
             }
         }
     })
