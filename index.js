@@ -42,6 +42,7 @@ app.use(upload())
 app.use("/", require("./routes/index"));
 app.use("/cardapio", require("./routes/cardapio"));
 app.use("/login", require("./routes/login"));
+app.use("/carrinho", require("./routes/carrinho"));
 app.use("/dashboard", require("./routes/dashboard"));
 app.use("/cadastro", require("./routes/cadastro"));
 app.use("/dashboard", require("./routes/pedidos"));
