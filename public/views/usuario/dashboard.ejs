@@ -29,7 +29,7 @@
                                   </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><strong><i class="fas fa-shopping-cart"></i> Carrinho</strong></a>
+                        <a class="nav-link" href="/carrinho"><strong><i class="fas fa-shopping-cart"></i> Carrinho</strong></a>
                     </li>
                 </ul>
             </div>
@@ -59,6 +59,7 @@
                             <thead class="bg-pandeli">
                                 <tr>
                                     <th scope="col" class="text-pandeli">Produtos</th>
+                                    <th scope="col" class="text-pandeli">Total Pago</th>
                                     <th scope="col" class="text-pandeli">Data da compra</th>
                                     <th scope="col" class="text-pandeli">Status</th>
                                 </tr>
@@ -67,6 +68,7 @@
                                 <tr v-for="compra of compras" :key="compra.id">
                                     <td class="text-pandeli-red">{{unicaLinha(compra.produtos)}}</td>
                                     <td class="text-pandeli-red">{{compra.data_compra}}</td>
+                                    <td class="text-pandeli-red"> R$ {{compra.valor_total}}</td>
                                     <td class="text-pandeli-red">{{compra.status}}</td>
                                 </tr>
                             </tbody>

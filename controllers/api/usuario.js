@@ -86,15 +86,18 @@ module.exports.addCompraUsuario = function(req, res){
         Usuario.updateOne({_id:req.params.id},{$push:{compras:compraEfetuada}}, function(err, result){
             if(err){
                 res.status(404).json({
+                    stored:false,
                     message:"Usuário não encontrado"
                 })
             }
             res.status(200).json({
+                stored:true,
                 message:"Compra adicionada"
             })
         })
     }else{
         res.status(400).json({
+            stored:false,
             message:"Parâmetros invalidos"
         })
     }

@@ -1,3 +1,5 @@
+const fetch = require('node-fetch');
+
 module.exports.acesso = function(req, res){
     if (req.session.compras){
         if(req.session.usuario){
@@ -12,7 +14,7 @@ module.exports.acesso = function(req, res){
             res.render("carrinho/carrinho", {
                 compras:req.session.compras,
                 usuario:req.session.usuario,
-                logado:req.session.autorizado
+                logado:false
             })
         }
     }
@@ -35,7 +37,6 @@ module.exports.comprar = function(req, res){
         req.session.compras = []
         req.session.compras.push(req.params.id_produto)
     }
-    console.log(req.session.compras)
     res.status(200).json({
         stored:true
     })
