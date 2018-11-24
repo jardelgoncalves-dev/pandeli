@@ -13,6 +13,7 @@
   "author": "Jardel Gonçalves, Mara Vitoria, Igor",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "connect-flash": "^0.1.1",
     "date-and-time": "^0.6.3",
