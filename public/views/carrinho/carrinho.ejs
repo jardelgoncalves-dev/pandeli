@@ -35,7 +35,7 @@
                         </li>
                     <%} %>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><strong><i class="fas fa-shopping-cart"></i> Carrinho</strong></a>
+                        <a class="nav-link" href="/carrinho"><strong><i class="fas fa-shopping-cart"></i> Carrinho</strong></a>
                     </li>
                 </ul>
             </div>
@@ -47,7 +47,6 @@
                 <div style="margin-top:70px;">
                     <h1 class="text-pandeli-red">Carrinho de Compra</h1>
                     <hr style="border: 2px solid #d46a56ff;">
-
                     <form v-if="compras.length > 0">
                         <table class="table">
                             <thead class="bg-pandeli">
@@ -65,18 +64,22 @@
                                             <input type="number" ref="item" @keyup="calcula" @click="calcula" :name='produto._id' :data-nome='produto.nome' :data-value='produto.preco' class="form-control" min="0" value="0">
                                         </div>
                                     </td>
-                                    <td>{{produto.preco}}</td>
+                                    <td>R$ {{produto.preco}}</td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="form-group row">
                             <h3 style="margin-top:8px;">Total</h3>
                             <div class="col-md-2 col-sm-6">
-                                <input name="valor_total" class="form-control form-control-lg" type="text" readonly value="0">
+                                <input ref="inputTotal" name="valor_total" class="form-control form-control-lg" type="text" readonly value="0">
                             </div>                            
                         </div>
-                        <button type="button"  class="btn btn-pandeli float-sm-right btn-lg"> Finalizar </button>
+                        <button type="button" @click="finalizaCompra" class="btn btn-pandeli float-sm-right btn-lg"> Finalizar </button>
                     </form>
+                    <div v-if="compras.length === 0" class="text-center">
+                        <img src="/dist/img/smiley.png" width="300" alt="Imagem triste">
+                        <h4 class="text-muted text-center" >Você não possui produto no carrinho</h4>
+                    </div>
                 </div>
             </div>
         </div>
@@ -84,6 +87,7 @@
 </main>
 <br>
 <script>
+    var usuario_id = "<%- usuario._id %>"
     var valor_total  = document.getElementsByName("valor_total");
     var id_produtos = "<%- compras %>".split(",")
     var app = new Vue({
@@ -91,7 +95,8 @@
         data(){
             return {
                 compras:[],
-                valor:0
+                valor:0,
+                produtos:[]
             }
         },
         mounted(){
@@ -103,7 +108,7 @@
                     for (let i = 0;i<id_produtos.length;i++){
                         axios.get("/api/produto/"+ id_produtos[i])
                         .then(function(resp){
-                            this.compras.push(resp.data)
+                            this.compras.push(resp.data)                            
                         }.bind(this))
                     }
                 }
@@ -116,6 +121,28 @@
                 };
                 this.valor= parseFloat(valor_tmp).toFixed(2);
                 valor_total[0].value = this.valor;
+            },
+            finalizaCompra(){
+                let itens = this.$refs.item;
+                for (let i = 0; i < itens.length;i++){
+                    if( parseInt(itens[i].value) !== 0 && !this.produtos.includes(itens[i].dataset.nome)){
+                        this.produtos.push(itens[i].dataset.nome)
+                    }
+                };
+                if(this.valor > 0 && this.produtos.length > 0 && usuario_id !== ""){
+                    axios.put("api/usuario/compra/" + usuario_id, {
+                        produtos:this.produtos,
+                        valor_total:parseFloat(this.valor)
+                    })
+                    .then(function(resp){
+                        console.log(resp.data)
+                        if(resp.data.stored){
+                            window.location.href = "/dashboard"
+                        }
+                    })
+                } else {
+                    window.location.href = "/login"
+                }
             }
         }
     })
