@@ -5,32 +5,48 @@ const date = require('date-and-time');
 
 // Add Usuário (consumido pelo cadastro)
 module.exports.addUsuario = function(req, res){
-    const already = Usuario.findOne({email:req.body.email})
-    .then(function(already){
-        if(already){
-            res.json({
-                stored:false,
-                message:"Email já em uso."
-            })
-            
+    console.log(req.body)
+    if (req.body.password !== req.body.passwordConfirm){
+        req.flash('error', "Senhas não equivalentes.")
+        res.redirect("/cadastro")
+    } else {
+        
+        Usuario.findOne({email:req.body.email})
+        .then(function(already){
+            if(already){
+                req.flash('error', "Email já em uso.")
+                res.redirect("/cadastro")
+                
 
-        }else{
-            if(isNaN(parseInt(req.body.endereco.numero)) && req.body.endereco.numero.toUpperCase() !== "S/N"){
-                res.json({
-                    stored:false,
-                    message:"Numero da casa inválido"
-                })
+            }else if(isNaN(parseInt(req.body.numero)) && req.body.numero.toUpperCase() !== "S/N"){
+                    req.flash('error', "Numero da casa inválido")
+                    res.redirect("/cadastro")
+
             } else {
-                const usuario = new Usuario(req.body)
+                const new_usuario = {
+                    nome:req.body.nome,
+                    sobrenome:req.body.sobrenome,
+                    email:req.body.email,
+                    password:req.body.password,
+                    cpf:req.body.cpf,
+                    endereco:{
+                        rua:req.body.rua,
+                        numero:req.body.numero,
+                        bairro:req.body.bairro,
+                        cidade:req.body.cidade,
+                        uf:req.body.uf,
+                        cep:req.body.cep
+                    },
+                    nivel_acesso:1
+                }
+                const usuario = new Usuario(new_usuario)
                 usuario.save()
-                res.json({
-                    stored:true,
-                    message:"Usuário cadastrado com sucesso.",
-                    usuario:usuario
-                })
+                req.session.autorizado = true
+                req.session.usuario = usuario
+                res.redirect("/dashboard")
             }
-        }
-    })
+        })
+    }
 }
 
 // Retorna todos os usuários cadastrados na base de dados
