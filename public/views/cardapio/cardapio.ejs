@@ -53,7 +53,7 @@
                                 <h1 class="featurette-heading text-center">{{produto.nome}}</h1>
                                 <p style="font-size:18px;"><strong class="text-pandeli-red">Ingredientes: </strong> {{produto.ingredientes}}</p>
                                 <p style="font-size:30px;"><strong class="text-pandeli-red">Preço: </strong>R$ {{produto.preco}} (<span class="text-pandeli-red">{{produto.unidade}}</span>)</p>
-                                <button type="button" class="btn btn-info float-right btn-lg">Comprar</button>
+                                <button @click="comprarProduto(produto._id)" type="button" class="btn btn-info float-right btn-lg">Comprar</button>
                             </div>
                             <div class="col-md-4 order-md-1">
                                 <img class="featurette-image img-fluid mx-auto img-thumbnail" width="300" :src="'/dist/img/product/' + produto.foto" alt="Imagem do Produto">
@@ -82,6 +82,14 @@
                 .then(function(resp){
                     this.produtos = resp.data
                 }.bind(this))
+            },
+            comprarProduto(id){
+                axios.post("/carrinho/compra/"+id)
+                .then(function(resp){
+                    if(resp.data.stored === true){
+                        window.location.href = "/carrinho"
+                    }
+                })
             }
         }
     })
