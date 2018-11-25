@@ -4,7 +4,7 @@
   "description": "Sistema de pedido",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index.js"
+    "start": "nodemon index.js"
   },
   "keywords": [
     "NodeJS",
