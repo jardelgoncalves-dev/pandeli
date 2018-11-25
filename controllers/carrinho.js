@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 
 module.exports.acesso = function(req, res){
     if (req.session.compras){
-        if(req.session.usuario){
+        if(req.session.autorizado){
             res.render("carrinho/carrinho", {
                 compras:req.session.compras,
                 usuario:req.session.usuario,
@@ -19,13 +19,21 @@ module.exports.acesso = function(req, res){
         }
     }
     else{
-        req.session.usuario = {nome:"",nivel_acesso:0}
-        req.session.compras = []
-        res.render("carrinho/carrinho", {
-            compras:req.session.compras,
-            usuario:req.session.usuario,
-            logado:req.session.autorizado
-        })
+        if(req.session.autorizado){
+            res.render("carrinho/carrinho", {
+                compras:req.session.compras,
+                usuario:req.session.usuario,
+                logado:req.session.autorizado
+            })
+        } else {
+            req.session.usuario = {nome:"",nivel_acesso:0}
+            req.session.compras = []
+            res.render("carrinho/carrinho", {
+                compras:req.session.compras,
+                usuario:req.session.usuario,
+                logado:req.session.autorizado
+            })
+        }
     }
 }
 
