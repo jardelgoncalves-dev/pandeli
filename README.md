@@ -14,7 +14,7 @@ Deve estar escutando na porta `2702`
 
 ### Aplicação
 ```
-npm test
+npm start
 ```
 
 ## Colaboradores
