@@ -10,7 +10,7 @@ const upload = require("express-fileupload");
 
 // Configuração e Conexão com o mongodb
 mongoose.set('debug', true);
-mongoose.connect("mongodb://localhost:2702/pandeli-db", { useNewUrlParser: true })
+mongoose.connect( process.env.MONGODB_URI || "mongodb://localhost:2702/pandeli-db", { useNewUrlParser: true })
     .then(function(){
         console.log("Banco de dados Conectado")
     })
@@ -56,6 +56,6 @@ app.use("/api/usuario", require("./routes/api/usuario"));
 app.use("/api/produto", require("./routes/api/produto"));
 app.use("/api/publicacao", require("./routes/api/publicacao"));
 
-app.listen(app.get("port"), function(){
+app.listen(process.env.PORT || app.get("port"), function(){
     console.log("Server on port", app.get("port"))
 });
