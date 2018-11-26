@@ -1,5 +1,3 @@
-const fetch = require('node-fetch');
-
 module.exports.acesso = function(req, res){
     if (req.session.compras){
         if(req.session.autorizado){

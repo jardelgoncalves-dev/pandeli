@@ -5,7 +5,6 @@ const date = require('date-and-time');
 
 // Add Usuário (consumido pelo cadastro)
 module.exports.addUsuario = function(req, res){
-    console.log(req.body)
     if (req.body.password !== req.body.passwordConfirm){
         req.flash('error', "Senhas não equivalentes.")
         res.redirect("/cadastro")
@@ -181,9 +180,4 @@ module.exports.deleteCompra = function(req, res){
             })
         })
     })
-}
-
-
-module.exports.deleteUsuario = function(req, res){
-    // dado um id, remove usuário da base de dados
 }
