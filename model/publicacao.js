@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-let now = new Date();
 const Publicacao = new Schema({
     titulo:String,
     data:String,
