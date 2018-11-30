@@ -105,6 +105,7 @@ module.exports.addCompraUsuario = function(req, res){
                     message:"Usuário não encontrado"
                 })
             }
+            req.session.compras = []
             res.status(200).json({
                 stored:true,
                 message:"Compra adicionada"
