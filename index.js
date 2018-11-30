@@ -10,7 +10,7 @@ const upload = require("express-fileupload");
 
 // Configuração e Conexão com o mongodb
 mongoose.set('debug', true);
-mongoose.connect( process.env.MONGODB_URI || "mongodb://admin:pandeli1234@ds039684.mlab.com:39684/pandeli-db", { useNewUrlParser: true })
+mongoose.connect( process.env.MONGODB_URI || "mongodb://localhost:2702/pandeli-db", { useNewUrlParser: true })
 
     .then(function(){
         console.log("Banco de dados Conectado")
