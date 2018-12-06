@@ -32,8 +32,8 @@ module.exports.addProduto = function(req, res){
 
 module.exports.getAllProdutos = function(req, res){
     Produto.find()
-    .then(function(usuarios){
-        res.status(200).json(usuarios)
+    .then(function(produtos){
+        res.status(200).json(produtos)
     })
 }
 
