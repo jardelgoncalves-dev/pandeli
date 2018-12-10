@@ -20,3 +20,4 @@ npm start
 ## Colaboradores
 - Jardel Gonçalves
 - Mara Vitória
+- Igor Holanda
